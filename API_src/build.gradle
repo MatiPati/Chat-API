@@ -30,7 +30,7 @@ dependencies {
 jar{
     manifest{
         attributes(
-            'Main-Class':'first.Application'
+                'Main-Class':'first.Application'
         )
     }
 }

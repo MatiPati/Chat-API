@@ -6,3 +6,4 @@ build/tmp/compileJava/
 src/main/main.iml
 src/main/resources/
 src/test/
+build/classes/
