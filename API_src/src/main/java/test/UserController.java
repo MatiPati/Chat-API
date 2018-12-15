@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     @Autowired // This means to get the bean called userRepository
-    private UserRepository userRepository;
+    private UserRepository usersRepository;
 
     @RequestMapping("/register")
     @ResponseBody
-    public String greeting(@RequestParam String login,@RequestParam String password,@RequestParam String email) {
-        User usr=new User(login,password,email);
-        userRepository.save(usr);
+    public String register( String login, @RequestParam String password, @RequestParam String email) {
+        User usr = new User( login, password, email);
+        usersRepository.save(usr);
         return "done";
     }
 }
