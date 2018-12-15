@@ -1,3 +1,6 @@
+test\UserController.class
+test\User.class
+test\App.class
+test\UserRepository.class
 test\Greeting.class
 test\GreetingController.class
-test\App.class
