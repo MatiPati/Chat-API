@@ -1,6 +1,10 @@
-test\UserController.class
-test\User.class
-test\App.class
-test\UserRepository.class
-test\Greeting.class
-test\GreetingController.class
+pl\azurix\App.class
+pl\azurix\user\User.class
+pl\azurix\room\RoomController.class
+pl\azurix\message\MessageController.class
+pl\azurix\room\Room.class
+pl\azurix\room\RoomRepository.class
+pl\azurix\message\Message.class
+pl\azurix\user\UserRepository.class
+pl\azurix\user\UserController.class
+pl\azurix\message\MessageRepository.class

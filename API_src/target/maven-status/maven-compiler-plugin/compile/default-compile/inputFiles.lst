@@ -1,6 +1,10 @@
-E:\GitHub\Project-Chat\API_src\src\main\java\test\Greeting.java
-E:\GitHub\Project-Chat\API_src\src\main\java\test\User.java
-E:\GitHub\Project-Chat\API_src\src\main\java\test\UserController.java
-E:\GitHub\Project-Chat\API_src\src\main\java\test\UserRepository.java
-E:\GitHub\Project-Chat\API_src\src\main\java\test\GreetingController.java
-E:\GitHub\Project-Chat\API_src\src\main\java\test\App.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\room\RoomRepository.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\App.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\room\Room.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\message\Message.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\user\UserController.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\message\MessageRepository.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\room\RoomController.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\user\User.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\message\MessageController.java
+E:\GitHub\Project-Chat\API_src\src\main\java\pl\azurix\user\UserRepository.java
