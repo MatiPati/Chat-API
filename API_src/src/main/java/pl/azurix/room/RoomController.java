@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/room")
 public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
 
-    @RequestMapping("/new")
+    @RequestMapping("/room/new")
     @ResponseBody
     public Room newRoom(@RequestParam Long creator_id, @RequestParam String name){
         Room room=new Room(creator_id,name);
+        roomRepository.save(room);
         return room;
     }
 }

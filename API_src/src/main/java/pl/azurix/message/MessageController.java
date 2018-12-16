@@ -24,13 +24,13 @@ public class MessageController {
         messageRepository.save(msg);
         return message;
     }
-
     @RequestMapping
     @ResponseBody
     public List<Object> getMessages(@PathVariable final Long room, @PathVariable final int limit) {
         Page<Object> val= messageRepository.getMessages(room, PageRequest.of(0, limit));
         return val.getContent();
-
     }
+
+
 
 }
