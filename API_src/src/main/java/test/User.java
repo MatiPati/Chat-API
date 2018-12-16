@@ -6,9 +6,10 @@ import javax.persistence.*;
 @Entity
 public class User {
 
-
-    private String id;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String login;
     private String email;
     private String password;
@@ -24,11 +25,11 @@ public class User {
 
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

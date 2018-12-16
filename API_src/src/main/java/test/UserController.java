@@ -1,10 +1,9 @@
 package test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -17,5 +16,16 @@ public class UserController {
         User usr = new User(login, password, email);
         usersRepository.save(usr);
         return "done";
+    }
+
+    @RequestMapping("/users")
+    @ResponseBody
+    public Iterable<User> allusers(){
+        return usersRepository.findAll();
+    }
+    @RequestMapping("/users/{id}")
+    @ResponseBody
+    public Optional<User> iduser(@PathVariable final Integer id){
+        return usersRepository.findById(id);
     }
 }
