@@ -2,14 +2,13 @@ package test;
 
 import javax.persistence.*;
 
+@Table(name = "users")
 @Entity
-@Table(name="users")
 public class User {
-    
+
+
+    private String id;
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_Sequence")
-    @SequenceGenerator(name = "user_Sequence", sequenceName = "USER_SEQ")
-    private long id;
     private String login;
     private String email;
     private String password;
@@ -25,11 +24,11 @@ public class User {
 
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

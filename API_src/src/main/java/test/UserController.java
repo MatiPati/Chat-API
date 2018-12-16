@@ -13,8 +13,8 @@ public class UserController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public String register( String login, @RequestParam String password, @RequestParam String email) {
-        User usr = new User( login, password, email);
+    public String register(@RequestParam String login, @RequestParam String password, @RequestParam String email) {
+        User usr = new User(login, password, email);
         usersRepository.save(usr);
         return "done";
     }
