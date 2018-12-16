@@ -17,6 +17,11 @@ public class UserController {
         usersRepository.save(usr);
         return "done";
     }
+    @RequestMapping("/login")
+    @ResponseBody
+    public Optional<User> login(@RequestParam String login, @RequestParam String password) {
+        return usersRepository.findById(usersRepository.login(login, password));
+    }
 
     @RequestMapping("/users")
     @ResponseBody
