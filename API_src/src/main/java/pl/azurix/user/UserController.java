@@ -28,6 +28,7 @@ public class UserController {
     public Iterable<User> allusers(){
         return usersRepository.findAll();
     }
+
     @RequestMapping("/users/{id}")
     @ResponseBody
     public Optional<User> iduser(@PathVariable final Integer id){
