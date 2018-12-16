@@ -12,26 +12,20 @@ public class UserController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public String register(@RequestParam String login, @RequestParam String password, @RequestParam String email) {
-        User usr = new User(login, password, email);
-        usersRepository.save(usr);
-        return "done";
+    public String register(@RequestParam String action, @RequestParam String login, @RequestParam String password, @RequestParam String email) {
+        if(action.equals("register")) {
+            User usr = new User(login, password, email);
+            usersRepository.save(usr);
+            return "done";
+        }else return "error, no action";
     }
+
     @RequestMapping("/login")
     @ResponseBody
-    public Optional<User> login(@RequestParam String login, @RequestParam String password) {
-        return usersRepository.findById(usersRepository.login(login, password));
-    }
-
-    @RequestMapping("/users")
-    @ResponseBody
-    public Iterable<User> allusers(){
-        return usersRepository.findAll();
-    }
-
-    @RequestMapping("/users/{id}")
-    @ResponseBody
-    public Optional<User> iduser(@PathVariable final Integer id){
-        return usersRepository.findById(id);
+    public Optional<Object> login(@RequestParam String action, @RequestParam String login, @RequestParam String password) {
+        if(action.equals("login")) {
+            Optional op= Optional.of(usersRepository.findById(usersRepository.login(login, password)));
+            return op;
+        }else return Optional.of("error, no action");
     }
 }

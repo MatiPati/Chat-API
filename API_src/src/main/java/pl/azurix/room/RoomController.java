@@ -13,9 +13,11 @@ public class RoomController {
 
     @RequestMapping("/room/new")
     @ResponseBody
-    public Room newRoom(@RequestParam Long creator_id, @RequestParam String name){
-        Room room=new Room(creator_id,name);
-        roomRepository.save(room);
-        return room;
+    public Object newRoom(@RequestParam String action, @RequestParam Long creator_id, @RequestParam String name){
+        if(action.equals("new_room")) {
+            Room room = new Room(creator_id, name);
+            roomRepository.save(room);
+            return room;
+        } else return "error, no action";
     }
 }

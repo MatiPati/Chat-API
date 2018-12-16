@@ -5,30 +5,31 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
-@RequestMapping("/room{room},{limit}")
 public class MessageController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @RequestMapping("/new")
+    @RequestMapping("/room/message")
     @ResponseBody
-    public String newMessage(@PathVariable final Long room, @RequestParam Long sender_id, @RequestParam String message) {
-        Message msg = new Message(room, sender_id, message);
-        messageRepository.save(msg);
-        return message;
+    public String newMessage(@RequestParam String action, @RequestParam Long room, @RequestParam Long sender_id, @RequestParam String message) {
+        if(action.equals("new_message")) {
+            Message msg = new Message(room, sender_id, message);
+            messageRepository.save(msg);
+            return message;
+        } else return "error, no action";
     }
-    @RequestMapping
+
+    @RequestMapping("/room")
     @ResponseBody
-    public List<Object> getMessages(@PathVariable final Long room, @PathVariable final int limit) {
-        Page<Object> val= messageRepository.getMessages(room, PageRequest.of(0, limit));
-        return val.getContent();
+    public List<Object> getMessages(@RequestParam String action, @RequestParam Long room, @RequestParam(value = "limit", defaultValue = "15") int limit) {
+        if(action.equals("get_messages")) {
+            Page<Object> val = messageRepository.getMessages(room, PageRequest.of(0, limit));
+            return val.getContent();
+        } else return new ArrayList<Object>(Arrays.asList("error, no action"));
     }
 
 
