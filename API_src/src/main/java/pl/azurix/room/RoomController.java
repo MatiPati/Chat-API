@@ -11,12 +11,14 @@ public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(value="/room/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String newRoom(@RequestBody Room room){
         roomRepository.save(room);
         return "hiho";
     }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping("/rooms")
     public Iterable<Room> getAllRooms(){
         return roomRepository.findAll();
