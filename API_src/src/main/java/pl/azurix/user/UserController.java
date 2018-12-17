@@ -28,4 +28,7 @@ public class UserController {
             return op;
         }else return Optional.of("error, no action");
     }
+    // /user/rooms      //wszystkie pokoje do ktorych nalezy user
+
+    // /user/<id>/rooms     //wszystkie pokoje do ktorych nalezy user <id>
 }

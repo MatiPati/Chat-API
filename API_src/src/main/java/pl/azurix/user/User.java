@@ -1,6 +1,7 @@
 package pl.azurix.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "users")
 @Entity
@@ -10,8 +11,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
+    @Column(unique = true)
     private String login;
+
+    @NotNull
+    @Column(unique = true)
     private String email;
+
+    @NotNull
     private String password;
 
 

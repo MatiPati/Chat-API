@@ -1,6 +1,7 @@
 package pl.azurix.room;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import pl.azurix.message.*;
@@ -13,7 +14,11 @@ public class Room {
     private Long id;
 
     @Column(name = "creator_id")
+    @NotNull
     private Long creatorId;
+
+    @NotNull
+    @Column(unique = true)
     private String name;
 
     Room() {

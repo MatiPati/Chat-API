@@ -1,6 +1,13 @@
 package pl.azurix.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import pl.azurix.room.Room;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "messages")
 @Entity
@@ -9,29 +16,35 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "room_id")
-    Long roomId;
+    @JoinColumn(name = "room_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Room room;
 
+    @NotNull
     @Column(name = "sender_id")
     Long senderId;
 
+    @NotNull
     String message;
 
-    Message() {
-    }
-
-    Message(Long roomId, Long senderId, String message) {
-        this.roomId = roomId;
+    public Message(Room room, @NotNull Long senderId, @NotNull String message) {
+        this.room = room;
         this.senderId = senderId;
         this.message = message;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setSenderId(Long senderId) {
@@ -44,10 +57,6 @@ public class Message {
 
     public Long getId() {
         return id;
-    }
-
-    public Long getRoomId() {
-        return roomId;
     }
 
     public Long getSenderId() {

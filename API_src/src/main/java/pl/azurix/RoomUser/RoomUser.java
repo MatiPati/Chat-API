@@ -1,6 +1,7 @@
 package pl.azurix.RoomUser;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @Table(name = "room_users")
@@ -11,9 +12,12 @@ public class RoomUser {
     Long id;
 
     @Column(name = "user_id")
+    @NotNull
     Long userId;
 
+    //https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-many-mapping-example/
     @Column(name = "room_id")
+    @NotNull
     Long roomId;
 
     public RoomUser(Long userId, Long roomId) {
