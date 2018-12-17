@@ -2,9 +2,6 @@ package pl.azurix.room;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-
-import pl.azurix.message.*;
 
 @Table(name = "rooms")
 @Entity
