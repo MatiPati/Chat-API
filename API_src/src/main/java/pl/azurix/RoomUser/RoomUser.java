@@ -11,6 +11,7 @@ public class RoomUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+
     @Column(name = "user_id")
     @NotNull
     Long userId;

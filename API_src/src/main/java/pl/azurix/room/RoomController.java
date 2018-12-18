@@ -1,8 +1,10 @@
 package pl.azurix.room;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import pl.azurix.user.UserRepository;
 
 import java.util.Optional;
 
@@ -11,9 +13,13 @@ public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @CrossOrigin(origins = "*")
     @RequestMapping(value="/room/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String newRoom(@RequestBody Room room){
+    public String newRoom(@RequestParam Integer creator_id, @RequestParam String name){
+        Room room=new Room(userRepository.findById(creator_id).get(),name);
         roomRepository.save(room);
         return "hiho";
     }
@@ -24,10 +30,6 @@ public class RoomController {
         return roomRepository.findAll();
     }
 
-
-    public Optional<Long> getRoomId(String room){
-        return roomRepository.getIdFromName(room);
-    }
 }
 /*
     //update example

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import pl.azurix.room.Room;
+import pl.azurix.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,8 +15,9 @@ import javax.validation.constraints.NotNull;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
+    @NotNull
     @JoinColumn(name = "room_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JsonIgnore
@@ -23,13 +25,17 @@ public class Message {
     private Room room;
 
     @NotNull
-    @Column(name = "sender_id")
-    Long senderId;
+    @JoinColumn(name = "sender_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User senderId;
 
     @NotNull
-    String message;
+    private String message;
 
-    public Message(Room room, @NotNull Long senderId, @NotNull String message) {
+    public Message(){}
+    public Message(Room room, @NotNull User senderId, @NotNull String message) {
         this.room = room;
         this.senderId = senderId;
         this.message = message;
@@ -47,7 +53,7 @@ public class Message {
         this.id = id;
     }
 
-    public void setSenderId(Long senderId) {
+    public void setSenderId(User senderId) {
         this.senderId = senderId;
     }
 
@@ -59,7 +65,7 @@ public class Message {
         return id;
     }
 
-    public Long getSenderId() {
+    public User getSenderId() {
         return senderId;
     }
 

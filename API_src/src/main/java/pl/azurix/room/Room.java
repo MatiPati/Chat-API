@@ -1,5 +1,11 @@
 package pl.azurix.room;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import pl.azurix.user.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -10,9 +16,12 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "creator_id")
+    @JoinColumn(name = "creator_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private Long creatorId;
+    private User creator;
 
     @NotNull
     @Column(unique = true)
@@ -21,8 +30,8 @@ public class Room {
     Room() {
     }
 
-    Room(Long creatorId, String name) {
-        this.creatorId = creatorId;
+    Room(User creator, String name) {
+        this.creator = creator;
         this.name = name;
     }
 
@@ -30,8 +39,8 @@ public class Room {
         this.id = id;
     }
 
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
+    public void setCreatorId(User creatorId) {
+        this.creator = creatorId;
     }
 
     public void setName(String name) {
@@ -42,8 +51,8 @@ public class Room {
         return id;
     }
 
-    public Long getCreatorId() {
-        return creatorId;
+    public User getCreatorId() {
+        return creator;
     }
 
     public String getName() {
