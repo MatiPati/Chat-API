@@ -1,5 +1,12 @@
 package pl.azurix.RoomUser;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import pl.azurix.user.User;
+import pl.azurix.room.Room;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -9,44 +16,50 @@ import javax.validation.constraints.NotNull;
 public class RoomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
 
-    @Column(name = "user_id")
     @NotNull
-    Long userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
-    //https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-many-mapping-example/
-    @Column(name = "room_id")
     @NotNull
-    Long roomId;
+    @JsonIgnore
+    @JoinColumn(name = "room_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Room room;
 
-    public RoomUser(Long userId, Long roomId) {
-        this.userId = userId;
-        this.roomId = roomId;
+    public  RoomUser(){}
+    public RoomUser(@NotNull User user, @NotNull Room room) {
+        this.user = user;
+        this.room = room;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Room getRoom() {
+        return room;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getRoomId() {
-        return roomId;
-    }
 }

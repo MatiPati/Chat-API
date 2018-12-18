@@ -42,13 +42,14 @@ public class MessageController {
     @CrossOrigin(origins = "*")
     @RequestMapping("/room/{roomId}/message")
     @ResponseBody
-    public String newMessage(@PathVariable(value = "roomId") Long roomId, @RequestParam Integer senderId, @RequestParam String message) {
+    public String newMessage(@PathVariable(value = "roomId") Long roomId, @RequestParam Long senderId, @RequestParam String message) {
         return roomRepository.findById(roomId).map(room -> {
             return userRepository.findById(senderId).map(user -> {
                 Message msg=new Message(room,user,message);
+                messageRepository.save(msg);
                 return "200";
-            }).orElseThrow(()-> new ResourceNotFoundException("sender_id "+senderId+" not found"));
-        }).orElseThrow(()-> new ResourceNotFoundException("room_id "+roomId+" not found"));
+            }).orElseThrow(()-> new ResourceNotFoundException("sender id "+senderId+" not found"));
+        }).orElseThrow(()-> new ResourceNotFoundException("room id "+roomId+" not found"));
     }
 
     @CrossOrigin(origins = "*")

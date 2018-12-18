@@ -1,12 +1,9 @@
 package pl.azurix.room;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.azurix.user.UserRepository;
-
-import java.util.Optional;
 
 @RestController
 public class RoomController {
@@ -18,8 +15,8 @@ public class RoomController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value="/room/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String newRoom(@RequestParam Integer creator_id, @RequestParam String name){
-        Room room=new Room(userRepository.findById(creator_id).get(),name);
+    public String newRoom(@RequestParam Long creatorId, @RequestParam String name){
+        Room room=new Room(userRepository.findById(creatorId).get(),name);
         roomRepository.save(room);
         return "hiho";
     }
