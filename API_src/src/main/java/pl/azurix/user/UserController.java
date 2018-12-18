@@ -1,34 +1,19 @@
 package pl.azurix.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    @Autowired // This means to get the bean called userRepository
-    private UserRepository usersRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping("/register")
-    @ResponseBody
-    public String register(@RequestParam String action, @RequestParam String login, @RequestParam String password, @RequestParam String email) {
-        if(action.equals("register")) {
-            User usr = new User(login, password, email);
-            usersRepository.save(usr);
-            return "done";
-        }else return "error, no action";
+    public String newUser(@RequestParam String email, @RequestParam String login, @RequestParam String password){
+        User user=new User(email,login,password);
+        userRepository.save(user);
+        return "200";
     }
-
-    @RequestMapping("/login")
-    @ResponseBody
-    public Optional<Object> login(@RequestParam String action, @RequestParam String login, @RequestParam String password) {
-        if(action.equals("login")) {
-            Optional op= Optional.of(usersRepository.findById(usersRepository.login(login, password)));
-            return op;
-        }else return Optional.of("error, no action");
-    }
-    // /user/rooms      //wszystkie pokoje do ktorych nalezy user
-
-    // /user/<id>/rooms     //wszystkie pokoje do ktorych nalezy user <id>
 }

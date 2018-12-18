@@ -17,17 +17,17 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @NotNull
     @JoinColumn(name = "room_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
 
+    @JsonIgnore
     @NotNull
     @JoinColumn(name = "sender_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User senderId;
 

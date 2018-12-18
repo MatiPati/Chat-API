@@ -14,7 +14,7 @@ public class RoomController {
     private UserRepository userRepository;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value="/room/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/room/new")
     public String newRoom(@RequestParam Long creatorId, @RequestParam String name){
         Room room=new Room(userRepository.findById(creatorId).get(),name);
         roomRepository.save(room);

@@ -3,12 +3,14 @@ package pl.azurix.RoomUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import pl.azurix.room.Room;
 import pl.azurix.room.RoomRepository;
+import pl.azurix.user.User;
 import pl.azurix.user.UserRepository;
 
-import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /*
  *  HOW TO USE:
@@ -50,8 +52,13 @@ public class RoomUserController {
 
 
     @RequestMapping("/room/{roomId}/users")
-    Optional<List> selectUsers(@PathVariable Long roomId) {
-        return roomUserRepository.findByRoom(roomRepository.findById(roomId).get());
+    List<User> selectUsers(@PathVariable Long roomId) {
+        List <RoomUser> list=roomUserRepository.findByRoom(roomRepository.findById(roomId).get());
+        List<User> rooms= new ArrayList<>();
+        list.forEach(roomUser -> {
+            rooms.add(roomUser.getUser());
+        });
+        return rooms;
     }
 
 }

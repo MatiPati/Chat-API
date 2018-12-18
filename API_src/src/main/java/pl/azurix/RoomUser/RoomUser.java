@@ -18,14 +18,12 @@ public class RoomUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @NotNull
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @NotNull
     @JsonIgnore
     @JoinColumn(name = "room_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -1,56 +1,34 @@
 package pl.azurix.user;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Table(name = "users")
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
-    private String login;
-
-    @NotNull
-    @Column(unique = true)
     private String email;
 
-    @NotNull
+    private String login;
+
     private String password;
 
+    public User() { }
 
-    public User() {
-    }
-
-    public User(String login, String password, String email) {
-        this.login = login;
+    public User(String email, String login, String password) {
         this.email = email;
+        this.login = login;
         this.password = password;
-
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setLogin(String login) {
@@ -61,7 +39,19 @@ public class User {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
