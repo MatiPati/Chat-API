@@ -35,12 +35,12 @@ public class Room {
         this.name = name;
     }
 
+    public User getCreator() { return creator; }
+
+    public void setCreator(User creator) { this.creator = creator; }
+
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setCreatorId(User creatorId) {
-        this.creator = creatorId;
     }
 
     public void setName(String name) {
@@ -49,10 +49,6 @@ public class Room {
 
     public Long getId() {
         return id;
-    }
-
-    public User getCreatorId() {
-        return creator;
     }
 
     public String getName() {
