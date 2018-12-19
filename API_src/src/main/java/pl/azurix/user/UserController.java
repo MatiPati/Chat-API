@@ -2,6 +2,9 @@ package pl.azurix.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.azurix.room.Room;
+
+import java.util.List;
 
 /*
  *  HOW TO USE:
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
  *     <password> String
  *     return: Object User
  *
- * -get all rooms where user is
  */
 
 @RestController

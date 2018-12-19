@@ -1,9 +1,11 @@
 package pl.azurix.RoomUser;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import pl.azurix.room.Room;
 import pl.azurix.room.RoomRepository;
 import pl.azurix.user.UserRepository;
 
@@ -22,7 +24,14 @@ import java.util.List;
  * -get all users from room with GET
  * /room/<roomId>/users
  *     <roomId> Long
- *     return: Optional<List> with all users
+ *     return: List<RoomUser> with all users
+ *     ResourceNotFoundException if there is no room with <roomId>
+ *
+ * -get all rooms where is user with GET
+ * /user/<userId>/rooms
+ *     <userId> Long
+ *     return: List<RoomUser> with all rooms
+ *     ResourceNotFoundException if there is no user with <userId>
  */
 
 @RestController
@@ -47,10 +56,21 @@ public class RoomUserController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/room/{roomId}/users", method = RequestMethod.POST)
+    @RequestMapping(value = "/room/{roomId}/users", method = RequestMethod.GET)
     List<RoomUser> selectUsers(@PathVariable Long roomId) {
-        return roomUserRepository.findByRoom(roomRepository.findById(roomId).get());
+        return roomRepository.findById(roomId).map(room -> {
+            return roomUserRepository.findByRoom(room);
+        }).orElseThrow(() -> new ResourceNotFoundException("room_id " + roomId + " not found"));
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/user/{userId}/rooms", method = RequestMethod.GET)
+    List<RoomUser>getRooms(@PathVariable Long userId){
+        return userRepository.findById(userId).map(user -> {
+            return roomUserRepository.findByUser(user);
+        }).orElseThrow(() -> new ResourceNotFoundException("user id " + userId + " not found"));
+    }
+
 
 }
 
