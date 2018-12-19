@@ -22,7 +22,7 @@ import java.util.List;
  *     return: "200" if user has been added
  *     ResourceNotFoundException if user hasn't been added
  *
- * -get all users from room   //doesn't work
+ * -get all users from room
  * /room/<roomId>/users
  *     <roomId> Long
  *     return: Optional<List> with all users
@@ -50,15 +50,10 @@ public class RoomUserController {
         }).orElseThrow(() -> new ResourceNotFoundException("room_id " + roomId + " not found"));
     }
 
-
+    @CrossOrigin(origins = "*")
     @RequestMapping("/room/{roomId}/users")
-    List<User> selectUsers(@PathVariable Long roomId) {
-        List <RoomUser> list=roomUserRepository.findByRoom(roomRepository.findById(roomId).get());
-        List<User> rooms= new ArrayList<>();
-        list.forEach(roomUser -> {
-            rooms.add(roomUser.getUser());
-        });
-        return rooms;
+    List<RoomUser> selectUsers(@PathVariable Long roomId) {
+        return roomUserRepository.findByRoom(roomRepository.findById(roomId).get());
     }
 
 }

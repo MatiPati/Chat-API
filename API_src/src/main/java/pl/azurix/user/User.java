@@ -1,9 +1,15 @@
 package pl.azurix.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
+import java.util.logging.Handler;
 
 @Table(name = "users")
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +19,11 @@ public class User {
 
     private String login;
 
+    @JsonIgnore
     private String password;
 
-    public User() { }
+    public User() {
+    }
 
     public User(String email, String login, String password) {
         this.email = email;

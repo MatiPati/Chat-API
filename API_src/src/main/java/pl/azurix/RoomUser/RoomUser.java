@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 public class RoomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @NotNull
