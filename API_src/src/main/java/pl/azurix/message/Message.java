@@ -24,7 +24,6 @@ public class Message {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
 
-    @JsonIgnore
     @NotNull
     @JoinColumn(name = "sender_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

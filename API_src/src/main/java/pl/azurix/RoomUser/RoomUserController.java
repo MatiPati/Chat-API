@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import pl.azurix.room.Room;
 import pl.azurix.room.RoomRepository;
-import pl.azurix.user.User;
 import pl.azurix.user.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*

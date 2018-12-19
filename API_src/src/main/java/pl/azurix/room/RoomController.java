@@ -1,9 +1,24 @@
 package pl.azurix.room;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import pl.azurix.user.UserRepository;
+
+/*
+ *  HOW TO USE:
+ *
+ * -create new room
+ * /room/new?creatorId=<creatorId>&name=<name>
+ *     <creatorId> Long
+ *     <name> String
+ *     return: "200" room has been created
+ *     ResourceNotFoundException if room hasn't been created
+ *
+ * -get all rooms
+ * /rooms
+ *     return: Iterable<Room> with all rooms
+ */
 
 @RestController
 public class RoomController {
@@ -16,9 +31,11 @@ public class RoomController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value="/room/new")
     public String newRoom(@RequestParam Long creatorId, @RequestParam String name){
-        Room room=new Room(userRepository.findById(creatorId).get(),name);
-        roomRepository.save(room);
-        return "hiho";
+        return userRepository.findById(creatorId).map(user -> {
+            Room room=new Room(user,name);
+            roomRepository.save(room);
+            return "200";
+        }).orElseThrow(()->new ResourceNotFoundException("user id "+creatorId+" not found"));
     }
 
     @CrossOrigin(origins = "*")
