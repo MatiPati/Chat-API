@@ -1,26 +1,26 @@
 package pl.azurix.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /*
  *  HOW TO USE:
  *
- * -create new user
- * /register?email=<email>
- *     <creatorId> Long
- *     <name> String
- *     return: "200" room has been created
- *     ResourceNotFoundException if room hasn't been created
+ * -create new user with POST
+ * /register?email=<email>&login=<login>&password=<password>
+ *     <email> String
+ *     <login> String
+ *     <password> String
+ *     return: "200" if user has been created
+ *     ResourceNotFoundException if user hasn't been created
  *
- * -login
+ * -login with POST
  * /login?login=<login>&password=<password>
  *     <login> String
  *     <password> String
  *     return: Object User
+ *
+ * -get all rooms where user is
  */
 
 @RestController
@@ -29,15 +29,15 @@ public class UserController {
     UserRepository userRepository;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/login")
-    public User login(@RequestParam String login, @RequestParam String password){
-        return userRepository.findByLoginAndPassword(login,password).get();
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public User login(@RequestParam String login, @RequestParam String password) {
+        return userRepository.findByLoginAndPassword(login, password).get();
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/register")
-    public String newUser(@RequestParam String email, @RequestParam String login, @RequestParam String password){
-        User user=new User(email,login,password);
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String newUser(@RequestParam String email, @RequestParam String login, @RequestParam String password) {
+        User user = new User(email, login, password);
         userRepository.save(user);
         return "200";
     }

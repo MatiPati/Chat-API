@@ -18,7 +18,6 @@ public class Room {
 
     @JoinColumn(name = "creator_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private User creator;

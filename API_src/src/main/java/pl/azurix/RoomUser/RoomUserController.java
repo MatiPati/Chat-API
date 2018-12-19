@@ -12,14 +12,14 @@ import java.util.List;
 /*
  *  HOW TO USE:
  *
- * -add new user to room
+ * -add new user to room with POST
  * /room/<roomId>/add/user?userId=<userId>
  *     <roomId> Long
  *     <userId> Long
  *     return: "200" if user has been added
  *     ResourceNotFoundException if user hasn't been added
  *
- * -get all users from room
+ * -get all users from room with GET
  * /room/<roomId>/users
  *     <roomId> Long
  *     return: Optional<List> with all users
@@ -35,8 +35,7 @@ public class RoomUserController {
     UserRepository userRepository;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/room/{roomId}/add/user")
-    @ResponseBody
+    @RequestMapping(value = "/room/{roomId}/add/user", method = RequestMethod.POST)
     String addNewUser(@RequestParam Long userId, @PathVariable Long roomId) {
         return roomRepository.findById(roomId).map(room -> {
             return userRepository.findById(userId).map(user -> {
@@ -48,7 +47,7 @@ public class RoomUserController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/room/{roomId}/users")
+    @RequestMapping(value = "/room/{roomId}/users", method = RequestMethod.POST)
     List<RoomUser> selectUsers(@PathVariable Long roomId) {
         return roomUserRepository.findByRoom(roomRepository.findById(roomId).get());
     }

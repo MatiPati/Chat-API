@@ -8,14 +8,14 @@ import pl.azurix.user.UserRepository;
 /*
  *  HOW TO USE:
  *
- * -create new room
+ * -create new room with POST
  * /room/new?creatorId=<creatorId>&name=<name>
  *     <creatorId> Long
  *     <name> String
  *     return: "200" room has been created
  *     ResourceNotFoundException if room hasn't been created
  *
- * -get all rooms
+ * -get all rooms with GET
  * /rooms
  *     return: Iterable<Room> with all rooms
  */
@@ -29,18 +29,18 @@ public class RoomController {
     private UserRepository userRepository;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value="/room/new")
-    public String newRoom(@RequestParam Long creatorId, @RequestParam String name){
+    @RequestMapping(value = "/room/new", method = RequestMethod.POST)
+    public String newRoom(@RequestParam Long creatorId, @RequestParam String name) {
         return userRepository.findById(creatorId).map(user -> {
-            Room room=new Room(user,name);
+            Room room = new Room(user, name);
             roomRepository.save(room);
             return "200";
-        }).orElseThrow(()->new ResourceNotFoundException("user id "+creatorId+" not found"));
+        }).orElseThrow(() -> new ResourceNotFoundException("user id " + creatorId + " not found"));
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/rooms")
-    public Iterable<Room> getAllRooms(){
+    @RequestMapping(value = "/rooms", method = RequestMethod.GET)
+    public Iterable<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 

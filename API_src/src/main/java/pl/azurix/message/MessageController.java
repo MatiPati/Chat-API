@@ -13,7 +13,7 @@ import java.util.*;
 /*
  *  HOW TO USE:
  *
- * -create new message  //TODO: POST
+ * -create new message with POST
  * /room/<roomId>/message?senderId=<senderId>&message=<message>
  *     <roomId> Long
  *     <senderId> Integer
@@ -21,10 +21,13 @@ import java.util.*;
  *     return: "200" if message has been created
  *     ResourceNotFoundException if message hasn't been created
  *
- * TODO:-delete message //DELETE
+ * -delete message //DELETE
  * /room/<roomId>/message?messageId=<messageId>
+ *     <messageId> Long
+ *     return "200" if message has been deleted
+ *     ResourceNotFoundException if message hasn't deleted
  *
- * -get messages from room
+ * -get messages from room with GET
  * /room/<roomId>?requestCount=<requestCount>
  *     <roomId> Long
  *     <requestCount> Integer (default value= 0)    for val=0- first 10 messages, val=1- messages from 11 to 20, val=3- 21-30
@@ -43,24 +46,33 @@ public class MessageController {
     private UserRepository userRepository;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/room/{roomId}/message")
-    @ResponseBody
+    @RequestMapping(value = "/room/{roomId}/message", method = RequestMethod.POST)
     public String newMessage(@PathVariable(value = "roomId") Long roomId, @RequestParam Long senderId, @RequestParam String message) {
         return roomRepository.findById(roomId).map(room -> {
             return userRepository.findById(senderId).map(user -> {
-                Message msg=new Message(room,user,message);
+                Message msg = new Message(room, user, message);
                 messageRepository.save(msg);
                 return "200";
-            }).orElseThrow(()-> new ResourceNotFoundException("sender id "+senderId+" not found"));
-        }).orElseThrow(()-> new ResourceNotFoundException("room id "+roomId+" not found"));
+            }).orElseThrow(() -> new ResourceNotFoundException("sender id " + senderId + " not found"));
+        }).orElseThrow(() -> new ResourceNotFoundException("room id " + roomId + " not found"));
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/room/{roomId}")
-    public List<Message> getMessages(@PathVariable("roomId") Long roomId,@RequestParam(value = "requestCount", defaultValue = "0") Integer requestCount){
-        Pageable limit=PageRequest.of(requestCount,10);
+    @RequestMapping(value = "/room/{roomId}", method = RequestMethod.GET)
+    public List<Message> getMessages(@PathVariable("roomId") Long roomId, @RequestParam(value = "count", defaultValue = "20") Integer count) {
+        Pageable limit = PageRequest.of(0, count);
         return messageRepository.findByRoomIdOrderByIdDesc(roomId, limit);
+    }
 
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/room/{roomId}", method = RequestMethod.DELETE)
+    public String deleteMessage(@PathVariable("roomId") Long roomId, @RequestParam Long messageId){
+        return roomRepository.findById(roomId).map(room -> {
+            return messageRepository.findById(messageId).map(message -> {
+                messageRepository.delete(message);
+                return "200";
+            }).orElseThrow(() -> new ResourceNotFoundException("message id " + messageId + " not found"));
+        }).orElseThrow(() -> new ResourceNotFoundException("room id " + roomId + " not found"));
     }
 }
 /*
