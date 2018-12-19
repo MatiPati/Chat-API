@@ -13,13 +13,16 @@ import java.util.*;
 /*
  *  HOW TO USE:
  *
- * -create new message
+ * -create new message  //TODO: POST
  * /room/<roomId>/message?senderId=<senderId>&message=<message>
  *     <roomId> Long
  *     <senderId> Integer
  *     <message> String
  *     return: "200" if message has been created
  *     ResourceNotFoundException if message hasn't been created
+ *
+ * TODO:-delete message //DELETE
+ * /room/<roomId>/message?messageId=<messageId>
  *
  * -get messages from room
  * /room/<roomId>?requestCount=<requestCount>
