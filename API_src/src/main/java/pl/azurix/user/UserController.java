@@ -2,8 +2,6 @@ package pl.azurix.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -23,6 +21,13 @@ import org.springframework.web.bind.annotation.*;
  *     <password> String
  *     return: Object User
  *
+ * -change password with PUT
+ * /user/<userId>/password?password=<password>&newPassword=<newPassword>
+ *     <userId> Long
+ *     <password> String
+ *     <newPassword> String
+ *     return: "200" if password has been edited
+ *     ResourceNotFoundException if password hasn't been edited
  */
 
 @RestController
@@ -39,10 +44,27 @@ public class UserController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String newUser(@RequestParam String email, @RequestParam String login, @RequestParam String password) {
-        if(userRepository.findByLogin(login).size()>0)
-            throw new ResourceNotFoundException("this login is already taken");
-        User user = new User(email, login, password);
-        userRepository.save(user);
-        return "200";
+        if(userRepository.findByLogin(login).isPresent())
+            throw new ResourceNotFoundException("user with this login already exists");
+        else {
+            User user = new User(email, login, password);
+            userRepository.save(user);
+            return "200";
+        }
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "user/{userId}/password", method = RequestMethod.PUT)
+    public String changePassword(@PathVariable Long userId, @RequestParam String password, @RequestParam String newPassword){
+        return userRepository.findById(userId).map(user -> {
+            if(password.equals(user.getPassword())) {
+                user.setPassword(newPassword);
+                userRepository.save(user);
+                return "200";
+            }
+            else throw new ResourceNotFoundException("wrong password");
+        }).orElseThrow(()->new ResourceNotFoundException("user id "+userId+" not found"));
+
+    }
+
 }
